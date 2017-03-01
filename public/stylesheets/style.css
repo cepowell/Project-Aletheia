@@ -1,3 +1,5 @@
+/******************** BASICS ********************/
+
 html,
 body {
   height: 100%;
@@ -6,21 +8,418 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.title {
+h1 {
+  font-family: 'Raleway', sans-serif;
+}
+
+.nav a {
+    cursor: pointer;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/******************** NAV BAR ********************/
+
+.navbar-default {
+  background-color: white;
+  border-color: rgba(34, 34, 34, 0.05);
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  transition: all 0.35s;
+}
+.navbar-default .navbar-header .navbar-brand {
+  color: #F05F40;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.navbar-default .navbar-header .navbar-brand:hover,
+.navbar-default .navbar-header .navbar-brand:focus {
+  color: #eb3812;
+}
+.navbar-default .navbar-header .navbar-toggle {
+  font-weight: 700;
+  font-size: 12px;
+  color: #222222;
+  text-transform: uppercase;
+}
+.navbar-default .nav > li > a,
+.navbar-default .nav > li > a:focus {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 13px;
+  color: #222222;
+}
+.navbar-default .nav > li > a:hover,
+.navbar-default .nav > li > a:focus:hover {
+  color: #F05F40;
+}
+.navbar-default .nav > li.active > a,
+.navbar-default .nav > li.active > a:focus {
+  color: #F05F40 !important;
+  background-color: transparent;
+}
+.navbar-default .nav > li.active > a:hover,
+.navbar-default .nav > li.active > a:focus:hover {
+  background-color: transparent;
+}
+@media (min-width: 768px) {
+  .navbar-default {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .navbar-default .navbar-header .navbar-brand {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .navbar-default .navbar-header .navbar-brand:hover,
+  .navbar-default .navbar-header .navbar-brand:focus {
+    color: white;
+  }
+  .navbar-default .nav > li > a,
+  .navbar-default .nav > li > a:focus {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .navbar-default .nav > li > a:hover,
+  .navbar-default .nav > li > a:focus:hover {
+    color: white;
+  }
+  .navbar-default.affix {
+    background-color: white;
+    border-color: rgba(34, 34, 34, 0.05);
+  }
+  .navbar-default.affix .navbar-header .navbar-brand {
+    color: #F05F40;
+    font-size: 14px;
+  }
+  .navbar-default.affix .navbar-header .navbar-brand:hover,
+  .navbar-default.affix .navbar-header .navbar-brand:focus {
+    color: #eb3812;
+  }
+  .navbar-default.affix .nav > li > a,
+  .navbar-default.affix .nav > li > a:focus {
+    color: #222222;
+  }
+  .navbar-default.affix .nav > li > a:hover,
+  .navbar-default.affix .nav > li > a:focus:hover {
+    color: #F05F40;
+  }
+}
+
+/******************** HOME PAGE ********************/
+
+header {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('../images/classroom.jpg');
+  text-align: center;
+  color: white;
+}
+
+header .header-content {
+  position: relative;
+  text-align: center;
+  padding: 100px 15px 100px;
+  width: 100%;
+}
+header .header-content .header-content-inner h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 75px;
+  text-shadow: 0px 0px 10px #000;
+}
+header .header-content .header-content-inner hr {
+  margin: 75px auto;
+}
+header .header-content .header-content-inner p {
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+
+.dropdown-center {
+  display: inline-block;
+}
+
+.school-list {
+  background-color: #f4f4eb;
+  height: 200px;
+  width: 100%;
+  border-bottom: 1px double #A9A9A9;
+}
+
+.add-school {
+  background-color: #e0e0d1;
+  height: 200px;
+  width: 100%;
+  border-bottom: 1px double #A9A9A9;
+}
+
+.add-school-form {
+  margin-top: 30px;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.school-heading {
+  text-align: center;
+  font-size: 25px;
+  font-variant: small-caps;
+  text-transform: capitalize;
   font-family: 'Oswald', sans-serif;
-  font-size: 35px;
+  text-shadow: 0px 0px 2px white;
+}
+
+.login-reminder {
+  width: 250px;
+  height: 250px;
+  font-size: 15px;
+  margin: auto;
+  padding-top: 5%;
+  text-align: center;
+}
+
+/******************** SCHOOL ********************/
+
+.section-one {
+  background-color: #f4f4eb;
+  width: 100%;
+  height: 200px;
+  border-bottom: 1px double #A9A9A9;
+  border-top: 1px double #A9A9A9;
+}
+
+.section-two {
+  background-color: #e0e0d1;
+  height: auto;
+  width: 100%;
+  border-bottom: 1px double #A9A9A9;
+}
+
+.school-banner {
+  width: 100%;
+  height: 250px;
+  background-image: url('../images/bookshelf.jpeg');
+}
+
+.school-name {
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 8%;
+  font-size: 55px;
+  color: white;
+  text-shadow: 0px 0px 10px #A9A9A9;
+}
+
+.tab-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-variant: small-caps;
+  letter-spacing: 2px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  background-color: #1e496d;
+}
+
+.tally-number {
+  padding-top: 10px;
+  padding-left: 80px;
+  font-family: 'Arial', sans-serif;
+  font-size: 70px;
+  display: inline-block;
+  vertical-align: top;
+  text-transform: uppercase;
+}
+
+.tally-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  text-transform: uppercase;
+  width: 100px;
+  height: 100px;
+  text-align: right;
+  padding-top: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.addButton {
+  font-size: 15px;
+}
+
+.link-header {
+  padding-top: 10px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+
+/******************** POSTS ********************/
+
+.post {
+  width: 95%;
+  padding-left: 20px;
+  margin-left: 20px;
+  background-color: #f4f4eb;
+  border: 1px solid #A9A9A9;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .post-title {
+  font-family: 'Raleway', sans-serif;
   font-size: 20px;
   margin-left: 10px;
+  padding-top: 5px;
+}
+
+.post-title:hover {
+  color: #70a1cc;
+  cursor: pointer;
 }
 
 .post-body {
-  font-size: 13px;
-  margin-left: 10px;
+  font-size: 15px;
+  padding-left: 40px;
+  padding-top: 5px;
 }
 
-.addPost {
+.post-body:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.number-comments {
+  font-size: 13px;
+  padding-left: 40px;
+  padding-top: 5px;
+  padding-top: 10px;
+  color: #696969;
+}
+
+.number-comments:hover{
+  text-decoration: none;
+  color: #696969;
+}
+
+.upvotes {
+  font-size: 18px;
+}
+
+.add-post {
+  padding-left: 10px;
   margin-top: 30px;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.add-post-title {
+  font-family: 'Raleway', sans-serif;
+  font-variant: small-caps;
+  font-size: 20px;
+}
+
+.add-post-body-input {
+  height: 200px;
+}
+
+/******************** LOGIN ********************/
+.login-background {
+  background-image: url('../images/login.jpeg');
+  width: 100%;
+  height: 100%;
+}
+
+.login-heading {
+  text-align: center;
+  font-size: 25px;
+  font-variant: small-caps;
+  text-transform: capitalize;
+  font-family: 'Raleway', sans-serif;
+  text-shadow: 0px 0px 2px white;
+}
+
+.login-form {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.login-box {
+  width: 250px;
+  height: 250px;
+  background-color: #e0e0d1;
+  opacity: 0.8;
+  margin: 0 auto;
+  border: 1px solid #A9A9A9;
+  box-shadow: 10px 10px 5px #888888;
+}
+
+/******************** REGISTER ********************/
+
+.register-background {
+  background-image: url('../images/register2.jpeg');
+  width: 100%;
+  height: 100%;
+}
+
+.register-heading {
+  text-align: center;
+  font-size: 25px;
+  font-variant: small-caps;
+  text-transform: capitalize;
+  font-family: 'Raleway', sans-serif;
+  text-shadow: 0px 0px 2px white;
+}
+
+.register-form {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.register-box {
+  width: 250px;
+  height: 250px;
+  background-color: #e0e0d1;
+  opacity: 0.8;
+  margin: 0 auto;
+  border: 1px solid #A9A9A9;
+  box-shadow: 10px 10px 5px #888888;
+}
+
+/******************** CREDITS ********************/
+
+.credits {
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.credits hr {
+  color: black;
 }

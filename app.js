@@ -3,6 +3,7 @@ var passport = require('passport');
 require('./models/Posts');
 require('./models/Comments');
 require('./models/Users');
+require('./models/Schools');
 require('./config/passport');
 
 mongoose.connect('mongodb://localhost/aletheiadb');

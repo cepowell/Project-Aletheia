@@ -7,6 +7,7 @@ var jwt = require('express-jwt');
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
 var User = mongoose.model('User');
+var School = mongoose.model('School');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
@@ -18,6 +19,17 @@ router.param('post', function(req, res, next, id) {
     if (!post) { return next(new Error('can\'t find post')); }
 
     req.post = post;
+    return next();
+  });
+});
+
+router.param('school', function(req, res, next, id) {
+  var query = School.findById(id);
+
+  query.exec(function (err, school){
+    if (err) {return next(err);}
+    if (!school) {return next(new Error('can\'t find school'));}
+    req.school = school;
     return next();
   });
 });
@@ -41,6 +53,13 @@ router.get('/posts', function(req, res, next) {
   });
 });
 
+router.get('/schools', function(req, res, next) {
+  School.find(function(err, schools){
+    if(err) {return next(err);}
+    res.json(schools);
+  });
+});
+
 router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);
   post.author = req.payload.username;
@@ -52,17 +71,52 @@ router.post('/posts', auth, function(req, res, next) {
   });
 });
 
+router.post('/schools', auth, function(req, res, next) {
+  var school = new School(req.body);
+  school.save(function(err, school){
+    if(err){return next(err);}
+    res.json(school);
+  });
+});
+
 router.get('/posts/:post', function(req, res, next) {
   req.post.populate('comments', function(err, post) {
     res.json(post);
   });
 });
 
+router.get('/schools/:school', function(req, res, next) {
+    req.school.populate('posts', function(err, school) {
+      res.json(req.school);
+    });
+});
+
 router.put('/posts/:post/upvote', auth, function(req, res, next) {
   req.post.upvote(function(err, post){
     if (err) { return next(err); }
-
     res.json(post);
+  });
+});
+
+router.put('/schools/:school/tally', auth, function(req, res, next) {
+  req.school.increaseTally(function(err, school){
+    if (err) { return next(err); }
+    res.json(school);
+  });
+});
+
+router.post('/schools/:school/posts', auth, function(req, res, next) {
+  var post = new Post(req.body);
+  post.school = req.school;
+  post.author = req.payload.username;
+
+  post.save(function(err, post) {
+    if(err){return next(err);}
+    req.school.posts.push(post);
+    req.school.save(function(err, school) {
+      if(err){return next(err);}
+      res.json(post);
+    });
   });
 });
 

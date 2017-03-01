@@ -4,27 +4,213 @@
 
   <body ng-app = "altheia" ng-controller="MainCtrl">
 
-    <nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
-      <ul class="nav navbar-nav">
-        <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
-        <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
-        <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
-        <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-      </ul>
+    <nav id="mainNav" ng-controller="NavCtrl" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand page-scroll" href="#page-top">Aletheia</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                  <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+                  <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
+                  <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+                  <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
-    <div class="container-fluid">
-      <div class = "row">
-        <div class="col-md-6 col-md-offset-3">
-          <ui-view></ui-view>
-        </div>
-      </div>
+    <ui-view></ui-view>
+
+    <div class = "container-fluid">
+      <hr style = "border-top: .75px solid #A9A9A9;">
+      <h4 class = "credits"> Project Aletheia, &copy; 2017 by Cait Powell </h4>
+      <br>
     </div>
 
-    <script type="text/ng-template" id="/home.html">
-      <div class = "page-header title">
-        Project Aletheia
+<!-- ********************************************** HOME ********************************************** -->
+    <script type = "text/ng-template" id="/home.html">
+      <header>
+          <div class="header-content">
+              <div class="header-content-inner">
+                  <br>
+                  <br>
+                  <h1>Project Aletheia</h1>
+                  <hr>
+                  <br>
+                  <br>
+                  <br>
+              </div>
+          </div>
+      </header>
+
+      <div class = "school-list">
+        <div class = "container-fluid">
+          <h3 class = "school-heading"> Schools </h3>
+          <br>
+          <div class="text-center">
+            <div class="dropdown dropdown-center" style = "margin-left: auto; margin-right: auto;">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Find Your School
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                  <li ng-repeat="school in schools"><a href="#/schools/{{school._id}}">{{school.name}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class = "add-school">
+        <div class = "container-fluid">
+          <h3 class = "school-heading"> Add Your School </h3>
+          <br>
+          <form ng-submit="addSchool()" ng-show="isLoggedIn()" class = "add-school-form">
+            <div class = "form-group">
+              <input type="text" placeholder = "Name" class = "form-control" ng-model = "name"></input>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+          <div ng-hide="isLoggedIn()">
+            <div class = "login-reminder">
+              You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a school.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </script>
+<!-- ******************************************************************************************** -->
+
+<!-- ********************************************** SCHOOL ********************************************** -->
+    <script type="text/ng-template" id="/schools.html">
+      <div class = "school-banner">
+        <div class = "container-fluid">
+          <h1 class = "school-name">
+            {{school.name}}
+          </h1>
+        </div>
+      </div>
+
+      <div class = "container-fluid">
+        <br>
+        <ul class="nav nav-pills nav-justified">
+          <li class="active"><a data-toggle="pill" data-target="#overview" class = "tab-title">Overview</a></li>
+          <li><a data-toggle="pill" data-target="#discussion" class = "tab-title">Discussion</a></li>
+          <li><a data-toggle="pill" data-target="#story" class = "tab-title">Tell Your Story</a></li>
+        </ul>
+      </div>
+
+      <div class="tab-content">
+
+        <!-- ************************ OVERVIEW ************************ -->
+        <div id="overview" class="tab-pane fade in active">
+
+          <div class = "section-one">
+            <div style = "margin: 0 auto; display: table;">
+              <p class = "tally-text">
+                Total Reported Assaults
+              </p>
+              <p class = "tally-number">
+                {{school.tally}}
+              </p>
+              <br>
+              <br>
+              <div style = "padding-left: 35px;" ng-show = "isLoggedIn()">
+                <button class="btn btn-primary addButton" ng-click = "incrementTally(school)">Add Your Assault</button>
+              </div>
+            </div>
+          </div>
+
+          <div class = "section-two">
+            <br>
+            <br>
+            <div style = "margin: 0 auto; display: table;">
+              <p class = "link-header">
+                Reference Material
+              </p>
+            </div>
+            <div style = "margin: 0 auto; display: table;">
+              <p>
+                Do you have links to official campus resources for reporting or adjudicating sexual assault? You can add them here.
+              </p>
+            </div>
+
+            <br>
+          </div>
+
+        </div>
+
+        <!-- ************************ DISCUSSION ************************ -->
+        <div id="discussion" class="tab-pane fade">
+
+          <div class = "container-fluid">
+            <br>
+            <br>
+            <div ng-repeat="post in school.posts | orderBy: '-upvotes'">
+              <div class = "post">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                <span class = "upvotes">{{post.upvotes}}</span>
+                <a class = "post-title">
+                  {{post.title}}
+                  <br>
+                </a>
+                <a class = "post-body">
+                  {{post.body}}
+                </a>
+                <br>
+                <a class = "number-comments">
+                  {{post.comments.length}} comments
+                </a>
+                <span ng-show="post.author">
+                  posted by <a>{{post.author}}</a> |
+                </span>
+              </div>
+            </div>
+
+            <br>
+            <br>
+            <hr>
+            <hr>
+            <br>
+
+            <form ng-submit="addPost()" ng-show="isLoggedIn()" class = "add-post">
+              <h3 class = "add-post-title"> Add a New Post </h3>
+              <div class = "form-group">
+                <input type="text" placeholder = "Title" class = "form-control" ng-model = "title"></input>
+              </div>
+              <br>
+              <div class = "form-group">
+                <input type="text" class = "form-control add-post-body-input" ng-model = "body"></input>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+            <div ng-hide="isLoggedIn()" class = "login-reminder">
+              <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- ************************ STORY ************************ -->
+        <div id="story" class="tab-pane fade">
+        </div>
+
+      </div>
+
+    </script>
+
+<!-- ******************************************************************************************** -->
+
+    <script type="text/ng-template" id="/home2.html">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       <div ng-repeat="post in posts | orderBy: '-upvotes'">
         <span class="glyphicon glyphicon-thumbs-up"ng-click="incrementUpvotes(post)"></span>
         <a class = "post-title">
@@ -53,6 +239,7 @@
         <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
       </div>
     </script>
+<!-- ******************************************************************************************** -->
 
     <script type="text/ng-template" id="/posts.html">
       <div class="page-header">
@@ -85,64 +272,75 @@
         <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
       </div>
     </script>
+<!-- ******************************************************************************************** -->
 
+<!-- ********************************************** REGISTER ********************************************** -->
     <script type="text/ng-template" id="/register.html">
-      <div class="page-header">
-        <h1>Aletheia</h1>
+
+      <div class = "register-background">
+        <div class = "container-fluid">
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <div ng-show="error" class="alert alert-danger row">
+            <span>{{ error.message }}</span>
+          </div>
+
+          <h3 class = "register-heading">Register</h3>
+
+          <div class = "register-box">
+            <div class = "register-form">
+              <form ng-submit="register()" style="margin-top:30px;">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div ng-show="error" class="alert alert-danger row">
-        <span>{{ error.message }}</span>
-      </div>
-
-      <form ng-submit="register()"
-        style="margin-top:30px;">
-        <h3>Register</h3>
-
-        <div class="form-group">
-          <input type="text"
-          class="form-control"
-          placeholder="Username"
-          ng-model="user.username"></input>
-        </div>
-        <div class="form-group">
-          <input type="password"
-          class="form-control"
-          placeholder="Password"
-          ng-model="user.password"></input>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-      </form>
     </script>
+<!-- ******************************************************************************************** -->
 
+<!-- ********************************************** LOGIN ********************************************** -->
     <script type="text/ng-template" id="/login.html">
-      <div class="page-header">
-        <h1>Aletheia</h1>
-      </div>
+      <div class = "login-background">
+        <div class = "container-fluid">
+          <br>
+          <br>
+          <br>
+          <br>
 
-      <div ng-show="error" class="alert alert-danger row">
-        <span>{{ error.message }}</span>
-      </div>
+          <div ng-show="error" class="alert alert-danger row">
+            <span>{{ error.message }}</span>
+          </div>
 
-      <form ng-submit="logIn()"
-        style="margin-top:30px;">
-        <h3>Log In</h3>
+          <h3 class = "login-heading">Log In</h3>
 
-        <div class="form-group">
-          <input type="text"
-          class="form-control"
-          placeholder="Username"
-          ng-model="user.username"></input>
+          <div class = "login-box">
+            <div class = "login-form">
+              <form ng-submit="logIn()" style="margin-top:30px;">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+                </div>
+                <button type="submit" class="btn btn-primary">Log In</button>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <input type="password"
-          class="form-control"
-          placeholder="Password"
-          ng-model="user.password"></input>
-        </div>
-        <button type="submit" class="btn btn-primary">Log In</button>
-      </form>
+      </div>
     </script>
+<!-- ******************************************************************************************** -->
 
   </body>
 </html>

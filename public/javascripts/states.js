@@ -5,13 +5,25 @@ angular.module('states', [])
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
     $stateProvider
+
       .state('home', {
         url: '/home',
         templateUrl: '/home.html',
         controller: 'MainCtrl',
         resolve: {
-          postPromise: ['posts', function(posts){
-            return posts.getAll();
+          postPromise: ['schools', function(schools){
+            return schools.getAll();
+          }]
+        }
+      })
+
+      .state('schools', {
+        url: '/schools/{id}',
+        templateUrl: '/schools.html',
+        controller: 'SchoolsCtrl',
+        resolve: {
+          school: ['$stateParams', 'schools', function($stateParams, schools) {
+            return schools.get($stateParams.id);
           }]
         }
       })
