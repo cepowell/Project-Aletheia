@@ -21,6 +21,12 @@ angular.module('schoolsService', [])
       headers: {Authorization: 'Bearer '+auth.getToken()}
     });
   };
+  o.addComment = function(id, post, comment) {
+    var data = {post: post, comment: comment};
+    return $http.post('/schools/' + id + '/comments', data, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    });
+  };
   o.increaseTally = function(school) {
     return $http.put('/schools/' + school._id + '/tally', null, {
       headers: {Authorization: 'Bearer '+auth.getToken()}

@@ -4,7 +4,7 @@ angular.module('postsService', [])
   var o = {
     posts: []
   };
-  o.getAll = function() {
+  o.getAll = function(school) {
     return $http.get('/posts').success(function(data){
       angular.copy(data, o.posts);
     });

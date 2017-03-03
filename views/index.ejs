@@ -25,6 +25,14 @@
     <div class = "container-fluid">
       <hr style = "border-top: .75px solid #A9A9A9;">
       <h4 class = "credits"> Project Aletheia, &copy; 2017 by Cait Powell </h4>
+      <div class="text-center">
+        <a href = "https://www.linkedin.com/in/cait-powell"
+          <i class="fa fa-linkedin-square" style="font-size:24px; padding-right: 5px;"></i>
+        </a>
+        <a href = "https://github.com/cepowell">
+          <i class="fa fa-github" style="font-size:24px; padding-left: 5px;"></i>
+        </a>
+      </div>
       <br>
     </div>
 
@@ -151,7 +159,7 @@
               <div class = "post">
                 <span class="glyphicon glyphicon-thumbs-up"></span>
                 <span class = "upvotes">{{post.upvotes}}</span>
-                <a class = "post-title">
+                <a href="#/schools/{{school.id}}/{{post._id}}" class = "post-title">
                   {{post.title}}
                   <br>
                 </a>
@@ -162,9 +170,26 @@
                 <a class = "number-comments">
                   {{post.comments.length}} comments
                 </a>
+                <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+                  <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+                  {{comment.upvotes}} - by {{comment.author}}
+                  <span style="font-size:20px; margin-left:10px;">
+                    {{comment.body}}
+                  </span>
+                </div>
                 <span ng-show="post.author">
                   posted by <a>{{post.author}}</a> |
                 </span>
+
+                <form ng-submit="addComment(post)" ng-show="isLoggedIn()" style="margin-top:30px;">
+                  <h3>Add a new comment</h3>
+
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Comment" ng-model="school.post.body"></input>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+
               </div>
             </div>
 
@@ -199,6 +224,46 @@
       </div>
 
     </script>
+
+<!-- ********************************************** POSTS ********************************************** -->
+
+  <script type="text/ng-template" id="/posts.html">
+
+    HELLO!!!
+    {{$scope.posts}}
+    <div class="page-header">
+      <h3>
+        <a>
+          <div ng-repeat="post in posts">
+            <a href="#/school/{{school._id}}/posts/post">{{post.title}}</a>
+            {{post.school}}
+          </div>
+        </a>
+      </h3>
+    </div>
+
+    <!--<div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+      <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+      {{comment.upvotes}} - by {{comment.author}}
+      <span style="font-size:20px; margin-left:10px;">
+        {{comment.body}}
+      </span>
+    </div>-->
+
+    <!--<form ng-submit="addComment()" ng-show="isLoggedIn()" style="margin-top:30px;">
+      <h3>Add a new comment</h3>
+
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
+      </div>
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+    <div ng-hide="isLoggedIn()">
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
+    </div>-->
+  </script>
+
+<!-- ******************************************************************************************** -->
 
 <!-- ******************************************************************************************** -->
 
@@ -241,7 +306,7 @@
     </script>
 <!-- ******************************************************************************************** -->
 
-    <script type="text/ng-template" id="/posts.html">
+    <script type="text/ng-template" id="/posts2.html">
       <div class="page-header">
         <h3>
           <a>
@@ -341,6 +406,12 @@
       </div>
     </script>
 <!-- ******************************************************************************************** -->
-
+<script>
+$('#mainNav').affix({
+    offset: {
+        top: 100
+    }
+})
+</script>
   </body>
 </html>

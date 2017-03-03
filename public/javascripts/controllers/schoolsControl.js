@@ -9,6 +9,7 @@ angular.module('schoolsControl', [])
   function($scope, schools, school, posts, auth){
     $scope.schools = schools.schools;
     $scope.school = school;
+    $scope.posts = school.posts;
     $scope.isLoggedIn = auth.isLoggedIn;
 
     $scope.incrementTally = function(school) {
@@ -25,6 +26,25 @@ angular.module('schoolsControl', [])
       });
       $scope.title = "";
       $scope.body = "";
+    };
+
+    $scope.addComment = function(post) {
+      try {
+        if (!$scope.school.post.body || $scope.school.post.body == "") {return;}
+        post.comments.push({
+          body: $scope.school.post.body,
+          upvotes: 0
+        });
+        schools.addComment($scope.school._id, post, {
+          body: $scope.school.post.body,
+        }).success(function(post, comment) {
+          post.post.comments.push(comment);
+        });
+        $scope.school.post.body = "";
+      }
+      catch(err) {
+        return;
+      }
     };
 
   }

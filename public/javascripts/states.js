@@ -29,12 +29,24 @@ angular.module('states', [])
       })
 
       .state('posts', {
-        url: '/posts/{id}',
+        url: '/school/{id}/posts',
         templateUrl: '/posts.html',
-        controller: 'PostsCtrl',
+        controller: 'SchoolsCtrl',
         resolve: {
-          post: ['$stateParams', 'posts', function($stateParams, posts) {
-            return posts.get($stateParams.id);
+          school: ['$stateParams', 'schools', function($stateParams, schools) {
+            return schools.get($stateParams.id);
+          }]
+        }
+      })
+
+      .state('individual-post', {
+        url: 'school/{schoolid}/posts/post',
+        templateUrl: '/individual-post.html',
+        controller: 'SchoolsCtrl',
+        resolve: {
+          school: ['$stateParams', 'schools', function($stateParams, schools) {
+            console.log($stateParams.id);
+            return schools.get($stateParams.id);
           }]
         }
       })
@@ -62,4 +74,5 @@ angular.module('states', [])
       });
 
     $urlRouterProvider.otherwise('home');
+
 }]);
