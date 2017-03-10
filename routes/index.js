@@ -44,12 +44,12 @@ router.param('comment', function(req, res, next, id) {
   })
 });
 
-/* GET home page. */
+/* GET home page */
 router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-/* GET list of schools. */
+/* GET list of schools */
 router.get('/schools', function(req, res, next) {
   School.find(function(err, schools){
     if(err) {return next(err);}
@@ -57,7 +57,7 @@ router.get('/schools', function(req, res, next) {
   });
 });
 
-/* POST new school. */
+/* POST new school */
 router.post('/schools', auth, function(req, res, next) {
   var school = new School(req.body);
   school.save(function(err, school){
@@ -76,11 +76,26 @@ router.get('/schools/:school', function(req, res, next) {
     });
 });
 
-/* PUT increase to school's tally */
+/* INCREASE school's tally */
 router.put('/schools/:school/tally', auth, function(req, res, next) {
   req.school.increaseTally(function(err, school){
     if (err) { return next(err); }
     res.json(school);
+  });
+});
+
+/* GET all posts */
+router.get('/posts', function(req, res, next) {
+  Post.find(function(err, posts){
+    if(err){ return next(err); }
+    res.json(posts);
+  });
+});
+
+/* GET an individual post */
+router.get('/posts/:post', function(req, res, next) {
+  req.post.populate('comments', function(err, post) {
+    res.json(post);
   });
 });
 
@@ -100,6 +115,43 @@ router.post('/schools/:school/posts', auth, function(req, res, next) {
   });
 });
 
+/* UPVOTE a post */
+router.put('/posts/:post/upvote', auth, function(req, res, next) {
+  req.post.upvote(function(err, post){
+    if (err) { return next(err); }
+    res.json(post);
+  });
+});
+
+/* DELETE a post */
+router.delete('/posts/:post', auth, function(req, res) {
+	req.post.comments.forEach(function(id) {
+		Comment.remove({
+			_id: id
+		}, function(err) {
+			if (err) { return next(err)}
+		});
+	})
+	Post.remove({
+		_id: req.params.post
+	}, function(err, post) {
+		if (err) { return next(err); }
+
+		Post.find(function(err, posts) {
+			if (err) { return next(err); }
+
+			res.json(posts);
+		});
+	});
+});
+
+/* GET a comment */
+router.get('/posts/:post/comments/:comment', function(req, res, next) {
+  req.post.populate('comments', function(err, post) {
+    res.json(post);
+  });
+});
+
 /* POST a new comment on a post */
 router.post('/schools/:school/comments', auth, function(req, res, next) {
   var comment = new Comment(req.body.comment);
@@ -107,6 +159,7 @@ router.post('/schools/:school/comments', auth, function(req, res, next) {
     if (err) {return next(err); }
     var callbackPost = post;
     comment.post = callbackPost;
+    comment.author = req.payload.username;
     callbackPost.comments.push(comment);
     comment.save(function(err, comment) {
       if (err) {return next(err);}
@@ -116,6 +169,19 @@ router.post('/schools/:school/comments', auth, function(req, res, next) {
       });
     });
   });
+});
+
+/* DELETE a comment */
+router.delete('/posts/:post/comments/:comment', auth, function(req, res) {
+  Comment.remove({
+    _id: req.params.comment
+  }, function(err, comment) {
+    if (err) {return next(err);}
+    Comment.find(function(err, comments) {
+      if (err) {return next(err);}
+      res.json(comments)
+    });
+  })
 });
 
 /* REGISTER */
@@ -150,29 +216,16 @@ router.post('/login', function(req, res, next) {
 
 /********************************************************/
 
-/* GET the posts for a school */
-router.get('/schools/:school/posts', function(req, res, next) {
+/*router.get('/schools/:school/posts', function(req, res, next) {
   Post.find({name: req.school.name}, function(err, posts){
     if(err){ return next(err); }
     res.json(posts);
   });
 });
 
-/* GET an individual post for a school */
 router.get('/schools/:school/posts/post', function(req, res, next) {
-  /*req.post.populate('comments', function(err, post) {
-    res.json(req.post);
-  });*/
   Post.find({name: req.school.name}, function(err, posts){
     if(err){ return next(err); }
-    res.json(posts);
-  });
-});
-
-router.get('/posts', function(req, res, next) {
-  Post.find(function(err, posts){
-    if(err){ return next(err); }
-
     res.json(posts);
   });
 });
@@ -188,42 +241,13 @@ router.post('/posts', auth, function(req, res, next) {
   });
 });
 
-router.get('/posts/:post', function(req, res, next) {
-  req.post.populate('comments', function(err, post) {
-    res.json(post);
-  });
-});
-
-router.put('/posts/:post/upvote', auth, function(req, res, next) {
-  req.post.upvote(function(err, post){
-    if (err) { return next(err); }
-    res.json(post);
-  });
-});
-
-router.post('/posts/:post/comments', auth, function(req, res, next) {
-  var comment = new Comment(req.body);
-  comment.post = req.post;
-  comment.author = req.payload.username;
-
-  comment.save(function(err, comment){
-    if(err){ return next(err); }
-
-    req.post.comments.push(comment);
-    req.post.save(function(err, post) {
-      if(err){ return next(err); }
-
-      res.json(comment);
-    });
-  });
-});
-
 router.post('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
   req.comment.upvote(function(err, comment){
     if (err) {return next(err);}
     res.json(comment);
   });
-});
+});*/
+
 /********************************************************/
 
 module.exports = router;

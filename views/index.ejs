@@ -52,6 +52,16 @@
           </div>
       </header>
 
+      <div class = "about">
+        <div class = "container-fluid">
+          Project Aletheia is a
+
+          <br>
+
+          If you are currently in crisis, please consider one of the following resources.
+        </div>
+      </div>
+
       <div class = "school-list">
         <div class = "container-fluid">
           <h3 class = "school-heading"> Schools </h3>
@@ -123,9 +133,14 @@
                 {{school.tally}}
               </p>
               <br>
-              <br>
+
               <div style = "padding-left: 35px;" ng-show = "isLoggedIn()">
-                <button class="btn btn-primary addButton" ng-click = "incrementTally(school)">Add Your Assault</button>
+                <div class="text-center">
+                  <i class="fa fa-plus-circle add-icon" ng-click="incrementTally(school)"></i>
+                  <br>
+                  <span class = "add-assault"> Add Your Assault </span>
+                </div>
+                <!--<button class="btn btn-primary addButton" ng-click = "incrementTally(school)">Add Your Assault</button>-->
               </div>
             </div>
           </div>
@@ -155,64 +170,143 @@
           <div class = "container-fluid">
             <br>
             <br>
-            <div ng-repeat="post in school.posts | orderBy: '-upvotes'">
-              <div class = "post">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-                <span class = "upvotes">{{post.upvotes}}</span>
-                <a href="#/schools/{{school.id}}/{{post._id}}" class = "post-title">
-                  {{post.title}}
-                  <br>
-                </a>
-                <a class = "post-body">
-                  {{post.body}}
-                </a>
-                <br>
-                <a class = "number-comments">
-                  {{post.comments.length}} comments
-                </a>
-                <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
-                  <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
-                  {{comment.upvotes}} - by {{comment.author}}
-                  <span style="font-size:20px; margin-left:10px;">
-                    {{comment.body}}
-                  </span>
-                </div>
-                <span ng-show="post.author">
-                  posted by <a>{{post.author}}</a> |
-                </span>
 
-                <form ng-submit="addComment(post)" ng-show="isLoggedIn()" style="margin-top:30px;">
-                  <h3>Add a new comment</h3>
-
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Comment" ng-model="school.post.body"></input>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Post</button>
-                </form>
-
-              </div>
+            <div class="text-center" ng-show = "isLoggedIn()">
+              <button class="btn btn-primary" ng-click = "showCompose = !showCompose">
+                <span class = "compose"> Compose </span>
+                <i class="fa fa-pencil-square-o compose-pencil" ng-click="incrementPostUpvotes(post)"></i>
+              </button>
             </div>
 
             <br>
-            <br>
-            <hr>
-            <hr>
-            <br>
 
-            <form ng-submit="addPost()" ng-show="isLoggedIn()" class = "add-post">
-              <h3 class = "add-post-title"> Add a New Post </h3>
+            <form ng-submit="addPost()" ng-show="isLoggedIn() && showCompose" class = "add-post">
+              <br>
               <div class = "form-group">
                 <input type="text" placeholder = "Title" class = "form-control" ng-model = "title"></input>
               </div>
               <br>
               <div class = "form-group">
-                <input type="text" class = "form-control add-post-body-input" ng-model = "body"></input>
+                <textarea class = "form-control" rows = "10" ng-model = "body"></textarea>
               </div>
               <br>
               <button type="submit" class="btn btn-primary">Post</button>
             </form>
+
             <div ng-hide="isLoggedIn()" class = "login-reminder">
-              <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
+              You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.
+            </div>
+
+            <div ng-show = "{{school.posts.length}} == 0">
+              <div class="text-center">
+                <h4> There are no posts under this school yet. </h4>
+              </div>
+            </div>
+
+            <div class="text-center" ng-hide = "{{school.posts.length}} == 0">
+              <input class = "search-bar" type="search" ng-model="filters.search" placeholder="Search...">
+              <span ng-show = "isLoggedIn()" style = "padding-left: 15px;">
+                <input type="checkbox" ng-model="filters.x" ng-change="actions.showMyPosts()"/>
+                Show Only My Posts
+              </span>
+            </div>
+
+            <div ng-repeat="post in school.posts | filter:filters.search | filter:{author: filters.author}">
+
+              <!-- Post collapsed -->
+              <div class = "post" ng-show = "!showDetails">
+                <i class="fa fa-angle-right arrow" ng-click = "showDetails = !showDetails" style="font-size:24px; padding-right: 5px; padding-top: 3px;"></i>
+                <span class = "post-header"> {{post.title}} </span>
+                <br>
+                <span class = "post-author"> posted by {{post.author}} </span>
+                <br>
+                <span class = "upvote-counter">
+                  <span ng-show = "isLoggedIn()">
+                    <i class="fa fa-thumbs-up thumbs-up" ng-click="incrementPostUpvotes(post)"></i>
+                    Upvote
+                  </span>
+                  <span ng-hide = "isLoggedIn()">
+                    Number of upvotes:
+                  </span>
+                  <span class="badge"> {{post.upvotes}} </span>
+                </span>
+              </div>
+              <!-- ************ -->
+
+              <!-- Post expanded -->
+              <div class = "post" ng-show = "showDetails">
+                <i class="fa fa-angle-down arrow" ng-click = "showDetails = !showDetails" style="font-size:24px; padding-right: 5px; padding-top: 3px;"></i>
+                <span class = "post-header"> {{post.title}} </span>
+                <br>
+                <span class = "post-author"> posted by {{post.author}} </span>
+                <br>
+                <span class = "upvote-counter">
+                  <span ng-show = "isLoggedIn()">
+                    <i class="fa fa-thumbs-up thumbs-up" ng-click="incrementPostUpvotes(post)"></i>
+                    Upvote
+                  </span>
+                  <span ng-hide = "isLoggedIn()">
+                    Number of upvotes:
+                  </span>
+                  <span class="badge"> {{post.upvotes}} </span>
+                  <span ng-show = "isLoggedIn() && ownershipCheck(post)">
+                    <i class =  "fa fa-trash delete" ng-click = "deletePost(post)"></i>
+                  <span>
+                </span>
+              </div>
+
+              <div class = "post-expanded" ng-show = "showDetails">
+                <a class = "post-body">
+                  {{post.body}}
+                </a>
+                <br>
+                <span class = "created">
+                  created at {{post.created}}
+                </span>
+                <br>
+                <a class = "number-comments" ng-click = "showComments = !showComments">
+                  {{post.comments.length}} comments
+                </a>
+
+                <!-- Comments expanded -->
+                <div ng-show = "showComments">
+
+                  <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+                    <br>
+                    <span class = "show-comment">
+                      {{comment.body}}
+                    </span>
+                    <br>
+                    <span class = "comment-author">
+                      posted by {{comment.author}}
+                    </span>
+                    <br>
+                    <span class = "created">
+                      created at {{comment.created}}
+                    </span>
+                    <span ng-show = "isLoggedIn() && ownershipCheck(post)">
+                      <i class =  "fa fa-trash delete" ng-click = "deleteComment(post, comment)"></i>
+                    </span>
+                  </div>
+
+                  <div class="text-center">
+                    <form ng-submit="addComment(post)" ng-show="isLoggedIn()" style="margin-top:30px;">
+                      <span class = "add-comment-title">
+                        Add a New Comment
+                      </span>
+
+                      <div class="form-group add-comment">
+                        <textarea class = "form-control" rows = "5" ng-model = "school.post.body"></textarea>
+                        <!--<input type="text" class="form-control" placeholder="Comment" ng-model="school.post.body"></input>-->
+                      </div>
+                      <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+              <!-- ************ -->
+
             </div>
           </div>
         </div>

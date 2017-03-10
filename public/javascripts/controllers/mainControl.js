@@ -18,7 +18,7 @@ angular.module('mainControl', [])
       $scope.name = '';
     };
 
-    $scope.addPost = function() {
+    /*$scope.addPost = function() {
       if(!$scope.title || $scope.title === '') { return; }
       posts.create({
         title: $scope.title,
@@ -26,10 +26,7 @@ angular.module('mainControl', [])
       });
       $scope.title = '';
       $scope.link = '';
-    };
+    };*/
 
-    $scope.incrementUpvotes = function(post) {
-        posts.upvote(post);
-    };
   }
 ]);

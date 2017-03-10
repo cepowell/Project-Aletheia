@@ -158,6 +158,13 @@ header .header-content .header-content-inner p {
   display: inline-block;
 }
 
+.about {
+  background-color: #fafaf7;
+  height: 200px;
+  width: 100%;
+  border-bottom: 1px double #A9A9A9;
+}
+
 .school-list {
   background-color: #f4f4eb;
   height: 200px;
@@ -190,12 +197,12 @@ header .header-content .header-content-inner p {
 }
 
 .login-reminder {
-  width: 250px;
-  height: 250px;
+  width: 500px;
   font-size: 15px;
   margin: auto;
-  padding-top: 5%;
   text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 25px;
 }
 
 /******************** SCHOOL ********************/
@@ -242,6 +249,16 @@ header .header-content .header-content-inner p {
   background-color: #1e496d;
 }
 
+.tally-box {
+  margin: 35px 24px;
+  display: inline-block;
+  padding: 20px 12px 0px 12px;
+  text-align: center;
+  width: 130px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, .6);
+}
+
 .tally-number {
   padding-top: 10px;
   padding-left: 80px;
@@ -264,8 +281,21 @@ header .header-content .header-content-inner p {
   vertical-align: top;
 }
 
-.addButton {
-  font-size: 15px;
+.add-assault {
+  font-family: 'Raleway';
+  text-transform: uppercase;
+  font-size: 12px;
+  padding-bottom: 5px;
+}
+
+.add-icon {
+  font-size: 40px;
+  padding-bottom: 5px;
+}
+
+.add-icon:hover {
+  color: #337ab7;
+  cursor: pointer;
 }
 
 .link-header {
@@ -277,54 +307,14 @@ header .header-content .header-content-inner p {
 
 /******************** POSTS ********************/
 
-.post {
-  width: 95%;
-  padding-left: 20px;
-  margin-left: 20px;
-  background-color: #f4f4eb;
-  border: 1px solid #A9A9A9;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.post-title {
-  font-family: 'Raleway', sans-serif;
+.compose-pencil {
   font-size: 20px;
-  margin-left: 10px;
-  padding-top: 5px;
+  padding-left: 3px;
+  vertical-align: top;
 }
 
-.post-title:hover {
-  color: #70a1cc;
-  cursor: pointer;
-}
-
-.post-body {
-  font-size: 15px;
-  padding-left: 40px;
-  padding-top: 5px;
-}
-
-.post-body:hover {
-  text-decoration: none;
-  color: black;
-}
-
-.number-comments {
-  font-size: 13px;
-  padding-left: 40px;
-  padding-top: 5px;
-  padding-top: 10px;
-  color: #696969;
-}
-
-.number-comments:hover{
-  text-decoration: none;
-  color: #696969;
-}
-
-.upvotes {
-  font-size: 18px;
+.compose {
+  vertical-align: top;
 }
 
 .add-post {
@@ -336,14 +326,153 @@ header .header-content .header-content-inner p {
   text-align: center;
 }
 
-.add-post-title {
+.search-bar {
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.post-header {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding-bottom: 3px;
+}
+
+.post-author {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding-bottom: 3px;
+  padding-left: 20px;
+  font-style: italic;
+}
+
+.upvote-counter {
+  padding-left: 20px;
+}
+
+.badge {
+  margin-bottom: 4px;
+  margin-left: 5px;
+}
+
+.arrow {
+  padding-right: 2px;
+}
+
+.arrow:hover{
+  color: #337ab7;
+  cursor: pointer;
+}
+
+.thumbs-up {
+  font-size: 18px;
+  padding-right: 3px;
+}
+
+.thumbs-up:hover {
+  color: #337ab7;
+  cursor: pointer;
+}
+
+.delete {
+  padding-left: 10px;
+  font-size: 20px;
+}
+
+.delete:hover{
+  color: #337ab7;
+  cursor: pointer;
+}
+
+.post {
+  width: 95%;
+  padding-left: 20px;
+  margin-left: 20px;
+  background-color: #f4f4eb;
+  border: 1px solid #A9A9A9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.post-expanded {
+  width: 95%;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  background-color: #fafaf7;
+  opacity: 0.8;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.post-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 17px;
+  margin-left: 10px;
+  padding-top: 5px;
+}
+
+.post-title:hover {
+  color: #70a1cc;
+  cursor: pointer;
+}
+
+.post-body {
+  font-size: 16.5px;
+  padding-top: 5px;
+}
+
+.post-body:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.number-comments {
+  font-size: 13px;
+  padding-left: 10px;
+  color: #696969;
+}
+
+.number-comments:hover {
+  text-decoration: none;
+  color: #70a1cc;
+  cursor: pointer;
+}
+
+.upvotes {
+  font-size: 18px;
+}
+
+.created {
+  font-size: 11;
+  font-style: italic;
+  padding-left: 10px;
+}
+
+.show-comments {
+  padding-left: 10px;
+  font-size: 25px;
+  padding-top: 10px;
+}
+
+.comment-author {
+  padding-left: 10px;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.add-comment-title {
   font-family: 'Raleway', sans-serif;
   font-variant: small-caps;
   font-size: 20px;
 }
 
-.add-post-body-input {
-  height: 200px;
+.add-comment {
+  width: 500px;
+  margin: 0 auto;
+  padding-bottom: 5px;
 }
 
 /******************** LOGIN ********************/
@@ -416,10 +545,9 @@ header .header-content .header-content-inner p {
 /******************** CREDITS ********************/
 
 .credits {
-  font-size: 12px;
-  text-transform: uppercase;
+  font-size: 14px;
   text-align: center;
-  font-weight: bolder;
+  font-weight: 900;
 }
 
 .credits hr {
