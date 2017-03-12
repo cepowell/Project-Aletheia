@@ -37,6 +37,13 @@ angular.module('schoolsControl', [])
       schools.increaseTally(school);
     };
 
+    $scope.addLink = function() {
+      if (!$scope.link || $scope.link == "") {return;}
+      $scope.school.links.push($scope.link);
+      schools.addLink(school, $scope.link);
+      $scope.link = "";
+    };
+
     $scope.addPost = function() {
       if (!$scope.title || !$scope.body || $scope.title == "" || $scope.body == "") {return;}
       schools.addPost(school._id, {

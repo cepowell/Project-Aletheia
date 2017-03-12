@@ -43,12 +43,12 @@ angular.module('postsService', [])
       angular.copy(data, o.posts);
     });
   };
-  o.upvoteComment = function(post, comment) {
+  /*o.upvoteComment = function(post, comment) {
     return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote', null, {
     headers: {Authorization: 'Bearer '+auth.getToken()}
   }).success(function(data){
     comment.upvotes += 1;
   });
-};
+};*/
   return o;
 }]);

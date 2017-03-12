@@ -28,7 +28,7 @@ angular.module('states', [])
         }
       })
 
-      .state('posts', {
+      /*.state('posts', {
         url: '/school/{id}/posts',
         templateUrl: '/posts.html',
         controller: 'SchoolsCtrl',
@@ -49,7 +49,7 @@ angular.module('states', [])
             return schools.get($stateParams.id);
           }]
         }
-      })
+      })*/
 
       .state('login', {
         url: '/login',

@@ -160,16 +160,27 @@ header .header-content .header-content-inner p {
 
 .about {
   background-color: #fafaf7;
-  height: 200px;
+  height: 350px;
   width: 100%;
   border-bottom: 1px double #A9A9A9;
 }
 
 .school-list {
   background-color: #f4f4eb;
-  height: 200px;
+  height: 150px;
   width: 100%;
   border-bottom: 1px double #A9A9A9;
+}
+
+.about-aletheia-text {
+  font-family: 'Raleway';
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.hotline {
+  font-weight: bolder;
+  color: #337ab7;
 }
 
 .add-school {
@@ -203,6 +214,11 @@ header .header-content .header-content-inner p {
   text-align: center;
   text-transform: uppercase;
   padding-bottom: 25px;
+}
+
+.login-reminder-link {
+  font-weight: bolder;
+  color: #337ab7;
 }
 
 /******************** SCHOOL ********************/
@@ -267,6 +283,7 @@ header .header-content .header-content-inner p {
   display: inline-block;
   vertical-align: top;
   text-transform: uppercase;
+  color: #337ab7;
 }
 
 .tally-text {
@@ -516,6 +533,16 @@ header .header-content .header-content-inner p {
   height: 100%;
 }
 
+.terms {
+  font-weight: bolder;
+  color: #337ab7;
+}
+
+.terms:hover {
+  cursor: pointer;
+  color: #1e496d;
+}
+
 .register-heading {
   text-align: center;
   font-size: 25px;
@@ -526,15 +553,16 @@ header .header-content .header-content-inner p {
 }
 
 .register-form {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: auto;
   margin: 0 auto;
   padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .register-box {
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: auto;
   background-color: #e0e0d1;
   opacity: 0.8;
   margin: 0 auto;

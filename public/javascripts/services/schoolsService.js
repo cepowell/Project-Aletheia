@@ -28,6 +28,11 @@ angular.module('schoolsService', [])
       school.tally += 1;
     });
   };
+  o.addLink = function(school, link) {
+    return $http.put('/schools/' + school._id + '/link', {link}, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    });
+  };
   o.addPost = function(id, post) {
     return $http.post('/schools/' + id + '/posts', post, {
       headers: {Authorization: 'Bearer '+auth.getToken()}

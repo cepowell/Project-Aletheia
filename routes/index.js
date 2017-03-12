@@ -84,6 +84,15 @@ router.put('/schools/:school/tally', auth, function(req, res, next) {
   });
 });
 
+/* ADD a link to a school */
+router.put('/schools/:school/link', auth, function(req, res, next) {
+  req.school.links.push(req.body.link);
+  req.school.save(function(err, school) {
+    if(err) {return next(err);}
+    res.json(school);
+  });
+});
+
 /* GET all posts */
 router.get('/posts', function(req, res, next) {
   Post.find(function(err, posts){
