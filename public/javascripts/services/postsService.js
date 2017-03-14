@@ -26,6 +26,11 @@ angular.module('postsService', [])
       angular.copy(data, o.posts);
      });
   };
+  /*o.edit = function(post) {
+    return $http.put('/posts/' + post._id, post, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    });
+  };*/
   o.upvote = function(post) {
     return $http.put('/posts/' + post._id + '/upvote', null, {
       headers: {Authorization: 'Bearer '+auth.getToken()}

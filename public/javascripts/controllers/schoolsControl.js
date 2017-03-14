@@ -2,16 +2,20 @@ angular.module('schoolsControl', [])
 
 .controller('SchoolsCtrl', [
   '$scope',
+  '$rootScope',
+  'mapService',
   'schools',
   'school',
   'posts',
   'auth',
-  function($scope, schools, school, posts, auth){
+  function($scope, $rootScope, mapService, schools, school, posts, auth){
     $scope.schools = schools.schools;
     $scope.school = school;
     $scope.posts = school.posts;
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.currentUser = auth.currentUser;
+
+    console.log($scope.school.stories);
 
     $scope.filters = {
         x: false,
@@ -44,6 +48,32 @@ angular.module('schoolsControl', [])
       $scope.link = "";
     };
 
+    $rootScope.$on("clicked", function(){
+      $scope.$apply(function(){
+          $scope.latitude = parseFloat(mapService.clickLat).toFixed(3);
+          $scope.longitude = parseFloat(mapService.clickLong).toFixed(3);
+      });
+    });
+
+    $scope.addStory = function() {
+      if (!$scope.storyTitle || !$scope.storyBody || !$scope.latitude || !$scope.longitude
+          || $scope.storyTitle == "" || $scope.storyBody == "" || $scope.latitude == "" || $scope.longitude == "")
+          {return;}
+      schools.addStory(school._id, {
+        title: $scope.storyTitle,
+        body: $scope.storyBody,
+        location: [$scope.longitude, $scope.latitude],
+        created: Date.now(),
+      }).success(function(story) {
+        $scope.school.stories.push(story);
+        mapService.refresh(39.50, -98.35);
+      });
+      $scope.storyTitle = "";
+      $scope.storyBody = "";
+      $scope.latitude = "";
+      $scope.longitude = "";
+    };
+
     $scope.addPost = function() {
       if (!$scope.title || !$scope.body || $scope.title == "" || $scope.body == "") {return;}
       schools.addPost(school._id, {
@@ -58,6 +88,17 @@ angular.module('schoolsControl', [])
     };
 
     $scope.addComment = function(post) {
+      if (!$scope.school.post.body || $scope.school.post.body == "") {return;}
+      posts.addComment(post._id, {
+        body: $scope.school.post.body,
+        created: Date.now()
+      }).success(function(comment) {
+        post.comments.push(comment);
+      });
+      $scope.school.post.body = "";
+    };
+
+    /*$scope.addComment = function(post) {
       try {
         if (!$scope.school.post.body || $scope.school.post.body == "") {return;}
         post.comments.push({
@@ -75,7 +116,7 @@ angular.module('schoolsControl', [])
       catch(err) {
         return;
       }
-    };
+    };*/
 
     $scope.incrementPostUpvotes = function(post) {
       posts.upvote(post);
@@ -89,6 +130,10 @@ angular.module('schoolsControl', [])
       }
       posts.delete(post);
 	  };
+
+    /*$scope.editPost = function(post) {
+      posts.edit(post);
+    };*/
 
     $scope.deleteComment = function(post, comment) {
       var postIndex = $scope.posts.indexOf(post);

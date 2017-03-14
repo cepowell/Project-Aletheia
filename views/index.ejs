@@ -69,6 +69,17 @@
                   </span>
               </div>
               <div class = "col-sm-4">
+                  <i class="fa fa-bullhorn" style="font-size:70px; padding-bottom: 5px;"></i>
+                  <br>
+                  <span class = "about-aletheia-text">
+                    Share your assault story
+                    <br>
+                    with other survivors
+                    <br>
+                    and take ownership of your experience.
+                  </span>
+              </div>
+              <div class = "col-sm-4">
                   <i class="fa fa-comments-o" style="font-size:70px; padding-bottom: 5px;"></i>
                   <br>
                   <span class = "about-aletheia-text">
@@ -79,17 +90,6 @@
                     sexual assault reporting
                     <br>
                     and adjudicating process.
-                  </span>
-              </div>
-              <div class = "col-sm-4">
-                  <i class="fa fa-bullhorn" style="font-size:70px; padding-bottom: 5px;"></i>
-                  <br>
-                  <span class = "about-aletheia-text">
-                    Share your assault story
-                    <br>
-                    with other survivors
-                    <br>
-                    and take ownership of your experience.
                   </span>
               </div>
             </div>
@@ -155,16 +155,16 @@
       <div class = "container-fluid">
         <br>
         <ul class="nav nav-pills nav-justified">
-          <li class="active"><a data-toggle="pill" data-target="#overview" class = "tab-title">Overview</a></li>
+          <li class = "active"><a data-toggle="pill" data-target="#story" class = "tab-title">Tell Your Story</a></li>
           <li><a data-toggle="pill" data-target="#discussion" class = "tab-title">Discussion</a></li>
-          <li><a data-toggle="pill" data-target="#story" class = "tab-title">Tell Your Story</a></li>
+          <li><a data-toggle="pill" data-target="#overview" class = "tab-title">Overview</a></li>
         </ul>
       </div>
 
       <div class="tab-content">
 
         <!-- ************************ OVERVIEW ************************ -->
-        <div id="overview" class="tab-pane fade in active">
+        <div id="overview" class="tab-pane fade">
 
           <div class = "section-one">
             <div style = "margin: 0 auto; display: table;">
@@ -291,7 +291,6 @@
                   <span class="badge"> {{post.upvotes}} </span>
                 </span>
               </div>
-              <!-- ************ -->
 
               <!-- Post expanded -->
               <div class = "post" ng-show = "showDetails">
@@ -325,12 +324,13 @@
                 </span>
                 <br>
                 <a class = "number-comments" ng-click = "showComments = !showComments">
-                  {{post.comments.length}} comments
+                  Comments
                 </a>
 
                 <!-- Comments expanded -->
                 <div ng-show = "showComments">
-
+                  <hr>
+                  <hr>
                   <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
                     <br>
                     <span class = "show-comment">
@@ -357,7 +357,6 @@
 
                       <div class="form-group add-comment">
                         <textarea class = "form-control" rows = "5" ng-model = "school.post.body"></textarea>
-                        <!--<input type="text" class="form-control" placeholder="Comment" ng-model="school.post.body"></input>-->
                       </div>
                       <button type="submit" class="btn btn-primary">Post</button>
                     </form>
@@ -365,19 +364,60 @@
 
                 </div>
               </div>
-              <!-- ************ -->
 
             </div>
           </div>
         </div>
 
         <!-- ************************ STORY ************************ -->
-        <div id="story" class="tab-pane fade">
+        <div id="story" class="tab-pane fade in active">
+
+          <div class = "container-fluid">
+
+            <div class = "map-instructions">
+              To read a fellow student's story of assault, click on one of the blue markers on the map. To add your own story,
+              click on the location where your assault took place; the red marker will move to the location where you clicked
+              and the coordinates of that location will be reflected in the story submission form. You can use the zoom controls
+              at the bottom of the map to increase precision.
+            </div>
+
+            <div class = "row">
+              <div class="col-md-7">
+                <div id="map" class = "map-container"></div>
+              </div>
+
+              <div class = "col-md-5">
+                <form ng-submit="addStory()" ng-show="isLoggedIn()" class = "add-story">
+                  <br>
+                  <div class = "form-group">
+                    <input type="text" placeholder = "Title" class = "form-control" ng-model = "storyTitle"></input>
+                  </div>
+                  <br>
+                  <div class = "form-group">
+                    <textarea class = "form-control" rows = "10" ng-model = "storyBody"></textarea>
+                  </div>
+                  <br>
+                  <div class = "form-group">
+                    <input type="text" placeholder = "Latitude" class = "form-control" ng-model = "latitude"></input>
+                  </div>
+                  <br>
+                  <div class = "form-group">
+                    <input type="text" placeholder = "Longitude" class = "form-control" ng-model = "longitude"></input>
+                  </div>
+                  <br>
+                  <button type="submit" class="btn btn-primary">Add Story</button>
+                </form>
+                <div ng-hide="isLoggedIn()" class = "login-reminder">
+                  You need to <a href="/#/login" class = "login-reminder-link">Log In</a> or <a href="/#/register" class = "login-reminder-link">Register</a> before you can add a post.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
-
     </script>
+<!-- ******************************************************************************************** -->
 
 <!-- ********************************************** REGISTER ********************************************** -->
     <script type="text/ng-template" id="/register.html">
@@ -461,12 +501,14 @@
       </div>
     </script>
 <!-- ******************************************************************************************** -->
-<script>
-$('#mainNav').affix({
-    offset: {
-        top: 100
-    }
-})
-</script>
+
+  <script>
+    $('#mainNav').affix({
+        offset: {
+            top: 100
+        }
+    });
+  </script>
+
   </body>
 </html>

@@ -8,19 +8,10 @@ var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
 var User = mongoose.model('User');
 var School = mongoose.model('School');
+var Story = mongoose.model('Story');
+
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
-
-/* Post param */
-router.param('post', function(req, res, next, id) {
-  var query = Post.findById(id);
-  query.exec(function (err, post){
-    if (err) { return next(err); }
-    if (!post) { return next(new Error('can\'t find post')); }
-    req.post = post;
-    return next();
-  });
-});
 
 /* School param */
 router.param('school', function(req, res, next, id) {
@@ -29,6 +20,28 @@ router.param('school', function(req, res, next, id) {
     if (err) {return next(err);}
     if (!school) {return next(new Error('can\'t find school'));}
     req.school = school;
+    return next();
+  });
+});
+
+/* Story param */
+router.param('story', function(req, res, next, id) {
+  var query = Story.findById(id);
+  query.exec(function (err, story){
+    if (err) { return next(err); }
+    if (!story) { return next(new Error('can\'t find story')); }
+    req.story = story;
+    return next();
+  });
+});
+
+/* Post param */
+router.param('post', function(req, res, next, id) {
+  var query = Post.findById(id);
+  query.exec(function (err, post){
+    if (err) { return next(err); }
+    if (!post) { return next(new Error('can\'t find post')); }
+    req.post = post;
     return next();
   });
 });
@@ -68,9 +81,10 @@ router.post('/schools', auth, function(req, res, next) {
 
 /* GET individual school */
 router.get('/schools/:school', function(req, res, next) {
+    req.school.populate('stories');
     req.school.populate({
       path: 'posts',
-      populate: {path: 'comments'}
+      populate: {path: 'comments'},
     }, function(err, school) {
       res.json(req.school);
     });
@@ -93,6 +107,35 @@ router.put('/schools/:school/link', auth, function(req, res, next) {
   });
 });
 
+/* GET all stories */
+router.get('/stories', function(req, res, next) {
+  Story.find(function(err, stories){
+    if(err){ return next(err); }
+    res.json(stories);
+  });
+});
+
+/* GET an individual story */
+router.get('/stories/:story', function(req, res, next) {
+  res.json(req.story);
+});
+
+/* POST a new story within a school */
+router.post('/schools/:school/stories', auth, function(req, res, next) {
+  var story = new Story(req.body);
+  story.school = req.school;
+  story.author = req.payload.username;
+
+  story.save(function(err, story) {
+    if(err){return next(err);}
+    req.school.stories.push(story);
+    req.school.save(function(err, school) {
+      if(err){return next(err);}
+      res.json(story);
+    });
+  });
+});
+
 /* GET all posts */
 router.get('/posts', function(req, res, next) {
   Post.find(function(err, posts){
@@ -100,6 +143,7 @@ router.get('/posts', function(req, res, next) {
     res.json(posts);
   });
 });
+
 
 /* GET an individual post */
 router.get('/posts/:post', function(req, res, next) {
@@ -154,6 +198,14 @@ router.delete('/posts/:post', auth, function(req, res) {
 	});
 });
 
+/*router.put('/posts/:post', auth, function(req, res) {
+  req.post.body = req.body.body;
+  req.post.save(function(err, post) {
+    if(err) {return next(err);}
+    res.json(post);
+  });
+});*/
+
 /* GET a comment */
 router.get('/posts/:post/comments/:comment', function(req, res, next) {
   req.post.populate('comments', function(err, post) {
@@ -161,8 +213,7 @@ router.get('/posts/:post/comments/:comment', function(req, res, next) {
   });
 });
 
-/* POST a new comment on a post */
-router.post('/schools/:school/comments', auth, function(req, res, next) {
+/*router.post('/schools/:school/comments', auth, function(req, res, next) {
   var comment = new Comment(req.body.comment);
   Post.findById(req.body.post._id, function(err, post) {
     if (err) {return next(err); }
@@ -178,6 +229,24 @@ router.post('/schools/:school/comments', auth, function(req, res, next) {
       });
     });
   });
+});*/
+
+/* POST a new comment on a post */
+router.post('/posts/:post/comments', auth, function(req, res, next) {
+	var comment = new Comment(req.body);
+	comment.post = req.post;
+	comment.author = req.payload.username;
+
+	comment.save(function(err, comment) {
+		if (err) { return next(err); }
+
+		req.post.comments.push(comment);
+		req.post.save(function(err, post) {
+			if (err) { return next(err); }
+
+			res.json(comment);
+		});
+	});
 });
 
 /* DELETE a comment */
@@ -256,6 +325,9 @@ router.post('/posts/:post/comments/:comment/upvote', auth, function(req, res, ne
     res.json(comment);
   });
 });*/
+
+//AIzaSyCfCEQNml0pfP39deLOcGYUKO7_zU0TUik
+
 
 /********************************************************/
 

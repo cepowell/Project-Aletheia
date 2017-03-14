@@ -33,16 +33,21 @@ angular.module('schoolsService', [])
       headers: {Authorization: 'Bearer '+auth.getToken()}
     });
   };
+  o.addStory = function(id, story) {
+    return $http.post('/schools/' + id + '/stories', story, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    });
+  };
   o.addPost = function(id, post) {
     return $http.post('/schools/' + id + '/posts', post, {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     });
   };
-  o.addComment = function(id, post, comment) {
+  /*o.addComment = function(id, post, comment) {
     var data = {post: post, comment: comment};
     return $http.post('/schools/' + id + '/comments', data, {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     });
-  };
+  };*/
   return o;
 }]);

@@ -8,5 +8,6 @@ var app = angular.module('altheia', [
   'postsService',
   'authService',
   'schoolsService',
+  'mapService',
   'states'
 ]);

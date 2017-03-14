@@ -36,22 +36,26 @@ a:hover {
   -moz-transition: all 0.35s;
   transition: all 0.35s;
 }
+
 .navbar-default .navbar-header .navbar-brand {
   color: #1e496d;
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }
+
 .navbar-default .navbar-header .navbar-brand:hover,
 .navbar-default .navbar-header .navbar-brand:focus {
   color: #eb3812;
 }
+
 .navbar-default .navbar-header .navbar-toggle {
   font-weight: 700;
   font-size: 12px;
   color: #222222;
   text-transform: uppercase;
 }
+
 .navbar-default .nav > li > a,
 .navbar-default .nav > li > a:focus {
   text-transform: uppercase;
@@ -59,19 +63,23 @@ a:hover {
   font-size: 13px;
   color: #222222;
 }
+
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus:hover {
   color: #1e496d;
 }
+
 .navbar-default .nav > li.active > a,
 .navbar-default .nav > li.active > a:focus {
   color: #1e496d !important;
   background-color: transparent;
 }
+
 .navbar-default .nav > li.active > a:hover,
 .navbar-default .nav > li.active > a:focus:hover {
   background-color: transparent;
 }
+
 @media (min-width: 768px) {
   .navbar-default {
     background-color: transparent;
@@ -136,6 +144,7 @@ header .header-content {
   padding: 100px 15px 100px;
   width: 100%;
 }
+
 header .header-content .header-content-inner h1 {
   font-weight: 700;
   text-transform: uppercase;
@@ -144,9 +153,11 @@ header .header-content .header-content-inner h1 {
   font-size: 75px;
   text-shadow: 0px 0px 10px #000;
 }
+
 header .header-content .header-content-inner hr {
   margin: 75px auto;
 }
+
 header .header-content .header-content-inner p {
   font-weight: 300;
   color: rgba(255, 255, 255, 0.7);
@@ -261,7 +272,9 @@ header .header-content .header-content-inner p {
   letter-spacing: 2px;
 }
 
-.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
   background-color: #1e496d;
 }
 
@@ -490,6 +503,25 @@ header .header-content .header-content-inner p {
   width: 500px;
   margin: 0 auto;
   padding-bottom: 5px;
+}
+
+/******************** STORIES ********************/
+
+.map-container {
+  height: 500px;
+  width: auto;
+}
+
+.map-instructions {
+  padding: 20px;
+}
+
+.add-story {
+  padding-left: 10px;
+  margin-top: 30px;
+  height: 500px;
+  width: auto;
+  text-align: center;
 }
 
 /******************** LOGIN ********************/
