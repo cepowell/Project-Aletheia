@@ -9,7 +9,7 @@ angular.module('authService', [])
 
    auth.getToken = function (){
      return $window.localStorage['aletheia-token'];
-   }
+   };
 
    auth.isLoggedIn = function(){
     var token = auth.getToken();
@@ -49,4 +49,5 @@ angular.module('authService', [])
   };
 
   return auth;
+
 }]);

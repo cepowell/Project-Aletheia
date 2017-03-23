@@ -15,8 +15,7 @@ angular.module('schoolsControl', [])
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.currentUser = auth.currentUser;
 
-    console.log($scope.school.stories);
-
+    // Filters for checkbox that shows only the current user's posts
     $scope.filters = {
         x: false,
         author: '',
@@ -33,21 +32,25 @@ angular.module('schoolsControl', [])
         }
     };
 
+    // Verify current user is the owner of a post
     $scope.ownershipCheck = function(post) {
       return (post.author == $scope.currentUser());
-    }
+    };
 
+    // Increae the school's assault tally; calls schoolsService increaseTally method
     $scope.incrementTally = function(school) {
       schools.increaseTally(school);
     };
 
+    // Add a link to a school; calls schoolsService addLink method
     $scope.addLink = function() {
-      if (!$scope.link || $scope.link == "") {return;}
+      if (!$scope.link || $scope.link === "") {return;}
       $scope.school.links.push($scope.link);
       schools.addLink(school, $scope.link);
       $scope.link = "";
     };
 
+    // Fetch latitude and longitude of click location when map is clicked, pass those values to $scope
     $rootScope.$on("clicked", function(){
       $scope.$apply(function(){
           $scope.latitude = parseFloat(mapService.clickLat).toFixed(3);
@@ -55,9 +58,9 @@ angular.module('schoolsControl', [])
       });
     });
 
+    // Add a story to a school; calls schoolsService addStory method
     $scope.addStory = function() {
-      if (!$scope.storyTitle || !$scope.storyBody || !$scope.latitude || !$scope.longitude
-          || $scope.storyTitle == "" || $scope.storyBody == "" || $scope.latitude == "" || $scope.longitude == "")
+      if (!$scope.storyTitle || !$scope.storyBody || !$scope.latitude || !$scope.longitude || $scope.storyTitle === "" || $scope.storyBody === "" || $scope.latitude === "" || $scope.longitude === "")
           {return;}
       schools.addStory(school._id, {
         title: $scope.storyTitle,
@@ -74,8 +77,9 @@ angular.module('schoolsControl', [])
       $scope.longitude = "";
     };
 
+    // Add a post to a school; calls schoolsService addPost method
     $scope.addPost = function() {
-      if (!$scope.title || !$scope.body || $scope.title == "" || $scope.body == "") {return;}
+      if (!$scope.title || !$scope.body || $scope.title === "" || $scope.body === "") {return;}
       schools.addPost(school._id, {
         title: $scope.title,
         body: $scope.body,
@@ -87,8 +91,9 @@ angular.module('schoolsControl', [])
       $scope.body = "";
     };
 
+    // Add a comment to a post; calls postsService addComment method
     $scope.addComment = function(post) {
-      if (!$scope.school.post.body || $scope.school.post.body == "") {return;}
+      if (!$scope.school.post.body || $scope.school.post.body === "") {return;}
       posts.addComment(post._id, {
         body: $scope.school.post.body,
         created: Date.now()
@@ -98,30 +103,12 @@ angular.module('schoolsControl', [])
       $scope.school.post.body = "";
     };
 
-    /*$scope.addComment = function(post) {
-      try {
-        if (!$scope.school.post.body || $scope.school.post.body == "") {return;}
-        post.comments.push({
-          body: $scope.school.post.body,
-          upvotes: 0
-        });
-        schools.addComment($scope.school._id, post, {
-          body: $scope.school.post.body,
-          created: Date.now()
-        }).success(function(post, comment) {
-          post.post.comments.push(comment);
-        });
-        $scope.school.post.body = "";
-      }
-      catch(err) {
-        return;
-      }
-    };*/
-
+    // Increment the upvotes of a post; calls postsService upvote method
     $scope.incrementPostUpvotes = function(post) {
       posts.upvote(post);
     };
 
+    // Delete a post; calls postsService delete method
     $scope.deletePost = function(post) {
       var index = $scope.posts.indexOf(post._id);
       $scope.posts.splice(index, 1);
@@ -131,10 +118,7 @@ angular.module('schoolsControl', [])
       posts.delete(post);
 	  };
 
-    /*$scope.editPost = function(post) {
-      posts.edit(post);
-    };*/
-
+    // Delete a comment from a post; calls postsService deleteComment method
     $scope.deleteComment = function(post, comment) {
       var postIndex = $scope.posts.indexOf(post);
       var commentIndex = $scope.posts[postIndex].comments.indexOf(comment);

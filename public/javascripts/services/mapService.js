@@ -93,7 +93,7 @@ angular.module('mapService', [])
 
         map.panTo(new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude)));
 
-        // Clicking on the Map moves the bouncing red marker
+        // Clicking on the map moves the red marker
         google.maps.event.addListener(map, 'click', function(e) {
             var marker = new google.maps.Marker({
                 position: e.latLng,
@@ -101,12 +101,12 @@ angular.module('mapService', [])
                 icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
 
-            // When a new spot is selected, delete the old red bouncing marker
+            // When a new spot is selected, delete the old red marker
             if (lastMarker) {
                 lastMarker.setMap(null);
             }
 
-            // Create a new red bouncing marker and move to it
+            // Create a new red marker and move to it
             lastMarker = marker;
             map.panTo(marker.position);
 
@@ -122,4 +122,5 @@ angular.module('mapService', [])
         googleMapService.refresh(selectedLat, selectedLong));
 
     return googleMapService;
+
 });

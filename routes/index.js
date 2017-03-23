@@ -54,7 +54,7 @@ router.param('comment', function(req, res, next, id) {
     if (!comment) {return next(new Error('can\'t find comment'));}
     req.comment = comment;
     return next();
-  })
+  });
 });
 
 /* GET home page */
@@ -182,9 +182,9 @@ router.delete('/posts/:post', auth, function(req, res) {
 		Comment.remove({
 			_id: id
 		}, function(err) {
-			if (err) { return next(err)}
+			if (err) { return next(err);}
 		});
-	})
+	});
 	Post.remove({
 		_id: req.params.post
 	}, function(err, post) {
@@ -198,38 +198,12 @@ router.delete('/posts/:post', auth, function(req, res) {
 	});
 });
 
-/*router.put('/posts/:post', auth, function(req, res) {
-  req.post.body = req.body.body;
-  req.post.save(function(err, post) {
-    if(err) {return next(err);}
-    res.json(post);
-  });
-});*/
-
 /* GET a comment */
 router.get('/posts/:post/comments/:comment', function(req, res, next) {
   req.post.populate('comments', function(err, post) {
     res.json(post);
   });
 });
-
-/*router.post('/schools/:school/comments', auth, function(req, res, next) {
-  var comment = new Comment(req.body.comment);
-  Post.findById(req.body.post._id, function(err, post) {
-    if (err) {return next(err); }
-    var callbackPost = post;
-    comment.post = callbackPost;
-    comment.author = req.payload.username;
-    callbackPost.comments.push(comment);
-    comment.save(function(err, comment) {
-      if (err) {return next(err);}
-      callbackPost.save(function(err, post) {
-        if (err) {return next(err);}
-        res.json(comment);
-      });
-    });
-  });
-});*/
 
 /* POST a new comment on a post */
 router.post('/posts/:post/comments', auth, function(req, res, next) {
@@ -257,9 +231,9 @@ router.delete('/posts/:post/comments/:comment', auth, function(req, res) {
     if (err) {return next(err);}
     Comment.find(function(err, comments) {
       if (err) {return next(err);}
-      res.json(comments)
+      res.json(comments);
     });
-  })
+  });
 });
 
 /* REGISTER */
@@ -272,7 +246,7 @@ router.post('/register', function(req, res, next) {
   user.setPassword(req.body.password);
   user.save(function(err) {
     if(err){ return next(err); }
-    return res.json({token: user.generateToken()})
+    return res.json({token: user.generateToken()});
   });
 });
 
@@ -291,44 +265,5 @@ router.post('/login', function(req, res, next) {
     }
   })(req, res, next);
 });
-
-/********************************************************/
-
-/*router.get('/schools/:school/posts', function(req, res, next) {
-  Post.find({name: req.school.name}, function(err, posts){
-    if(err){ return next(err); }
-    res.json(posts);
-  });
-});
-
-router.get('/schools/:school/posts/post', function(req, res, next) {
-  Post.find({name: req.school.name}, function(err, posts){
-    if(err){ return next(err); }
-    res.json(posts);
-  });
-});
-
-router.post('/posts', auth, function(req, res, next) {
-  var post = new Post(req.body);
-  post.author = req.payload.username;
-
-  post.save(function(err, post){
-    if(err){ return next(err); }
-
-    res.json(post);
-  });
-});
-
-router.post('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
-  req.comment.upvote(function(err, comment){
-    if (err) {return next(err);}
-    res.json(comment);
-  });
-});*/
-
-//AIzaSyCfCEQNml0pfP39deLOcGYUKO7_zU0TUik
-
-
-/********************************************************/
 
 module.exports = router;

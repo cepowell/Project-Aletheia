@@ -28,29 +28,6 @@ angular.module('states', [])
         }
       })
 
-      /*.state('posts', {
-        url: '/school/{id}/posts',
-        templateUrl: '/posts.html',
-        controller: 'SchoolsCtrl',
-        resolve: {
-          school: ['$stateParams', 'schools', function($stateParams, schools) {
-            return schools.get($stateParams.id);
-          }]
-        }
-      })
-
-      .state('individual-post', {
-        url: 'school/{schoolid}/posts/post',
-        templateUrl: '/individual-post.html',
-        controller: 'SchoolsCtrl',
-        resolve: {
-          school: ['$stateParams', 'schools', function($stateParams, schools) {
-            console.log($stateParams.id);
-            return schools.get($stateParams.id);
-          }]
-        }
-      })*/
-
       .state('login', {
         url: '/login',
         templateUrl: '/login.html',

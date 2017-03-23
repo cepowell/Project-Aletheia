@@ -10,6 +10,7 @@ angular.module('mainControl', [])
     $scope.posts = posts.posts;
     $scope.isLoggedIn = auth.isLoggedIn;
 
+    // Add a school to the database; calls schoolsService create method
     $scope.addSchool = function() {
       if (!$scope.name || $scope.name === '') {return;}
       schools.create({
@@ -17,16 +18,6 @@ angular.module('mainControl', [])
       });
       $scope.name = '';
     };
-
-    /*$scope.addPost = function() {
-      if(!$scope.title || $scope.title === '') { return; }
-      posts.create({
-        title: $scope.title,
-        link: $scope.link,
-      });
-      $scope.title = '';
-      $scope.link = '';
-    };*/
 
   }
 ]);

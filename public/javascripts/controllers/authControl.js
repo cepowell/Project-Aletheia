@@ -7,6 +7,7 @@ angular.module('authControl', [])
   function($scope, $state, auth){
     $scope.user = {};
 
+    // Register a user; calls authService register method and returns home
     $scope.register = function(){
       auth.register($scope.user).error(function(error){
         $scope.error = error;
@@ -15,6 +16,7 @@ angular.module('authControl', [])
       });
     };
 
+    // Login method; calls authService logIn method and returns home
     $scope.logIn = function(){
       auth.logIn($scope.user).error(function(error){
         $scope.error = error;
