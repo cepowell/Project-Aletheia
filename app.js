@@ -7,7 +7,7 @@ require('./models/Schools');
 require('./models/Stories');
 require('./config/passport');
 
-mongoose.connect('mongodb://localhost/aletheiadb');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/aletheiadb');
 
 var express = require('express');
 var path = require('path');
