@@ -4,7 +4,7 @@ In the United States, approximately 19\% of women and 6\% of men will be sexuall
 
 ### Using Project Aletheia
 ---
-You can access the working prototype at [URL](https://www.google.com).
+You can access the working prototype [here](https://project-aletheia.herokuapp.com/).
 
 ### Developing for Project Aletheia
 ---
