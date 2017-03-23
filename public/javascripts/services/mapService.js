@@ -71,7 +71,7 @@ angular.module('mapService', [])
                 position: n.latlon,
                 map: map,
                 title: "Big Map",
-                icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
             });
 
             // For each marker created, add a listener that checks for clicks
@@ -87,7 +87,7 @@ angular.module('mapService', [])
         var marker = new google.maps.Marker({
             position: initialLocation,
             map: map,
-            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
         });
         lastMarker = marker;
 
@@ -98,7 +98,7 @@ angular.module('mapService', [])
             var marker = new google.maps.Marker({
                 position: e.latLng,
                 map: map,
-                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
 
             // When a new spot is selected, delete the old red marker
