@@ -6,6 +6,10 @@ In the United States, approximately 19\% of women and 6\% of men will be sexuall
 ---
 You can access the working prototype [here](https://project-aletheia.herokuapp.com/).
 
+### Scholarly Citation
+---
+You can view the written thesis [here](http://search.proquest.com/openview/b6d5121f82b8f0408aca375fc6d00a46/).
+
 ### Developing for Project Aletheia
 ---
 
